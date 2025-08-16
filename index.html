@@ -1,171 +1,417 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sanha Digital Technology</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-    }
-    body {
-      background: #0f0f0f;
-      color: #e0ffe0;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-    header {
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    nav {
-      max-width: 1200px;
-      margin: auto;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    nav h1 {
-      color: #9aff00;
-      font-weight: 600;
-    }
-    nav ul {
-      display: flex;
-      gap: 1.5rem;
-      list-style: none;
-    }
-    nav ul li a {
-      color: #e0ffe0;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-    nav ul li a:hover {
-      color: #9aff00;
-    }
-    .hero {
-      min-height: 90vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      text-align: center;
-      padding: 2rem;
-      background: linear-gradient(to bottom right, rgba(20, 20, 20, 0.8), rgba(0, 0, 0, 0.6));
-    }
-    .hero h2 {
-      font-size: 3rem;
-      color: #9aff00;
-    }
-    .hero p {
-      max-width: 700px;
-      margin-top: 1rem;
-      font-size: 1.2rem;
-      color: #cccccc;
-    }
-    .cta {
-      margin-top: 2rem;
-      padding: 0.8rem 2rem;
-      background: #9aff00;
-      border: none;
-      color: #000;
-      font-weight: 600;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .cta:hover {
-      background: #bfff3c;
-    }
-    .section {
-      padding: 4rem 2rem;
-      max-width: 1100px;
-      margin: auto;
-    }
-    .glass {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px 0 rgba(0, 255, 0, 0.25);
-      padding: 2rem;
-      margin-bottom: 2rem;
-    }
-    footer {
-      background: #111;
-      color: #9aff00;
-      text-align: center;
-      padding: 2rem;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanha Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 30%, #2a1a2a 70%, #0f0f0f 100%);
+            min-height: 100vh;
+            font-family: 'Courier New', 'Monaco', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(138, 43, 226, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(219, 112, 147, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(75, 0, 130, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+            animation: backgroundPulse 8s ease-in-out infinite;
+        }
+        
+        body::after {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 100px,
+                    rgba(255, 255, 255, 0.01) 100px,
+                    rgba(255, 255, 255, 0.01) 102px
+                );
+            pointer-events: none;
+            z-index: -1;
+            animation: backgroundMove 20s linear infinite;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .glass {
+            background: linear-gradient(135deg, rgba(40, 40, 40, 0.8) 0%, rgba(60, 60, 60, 0.6) 50%, rgba(30, 30, 30, 0.8) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .profile-card {
+            border-radius: 20px;
+            padding: 32px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .profile-image {
+            background: linear-gradient(45deg, #ffffff, #f0f0f0);
+            padding: 3px;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 24px auto;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        
+        .profile-photo {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #2a2a2a, #1a1a1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 40px;
+            font-weight: normal;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .name {
+            font-size: 24px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 6px;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+        }
+        
+        .title {
+            font-size: 14px;
+            color: #c0c0c0;
+            margin-bottom: 24px;
+            text-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
+            font-weight: 400;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 0;
+        }
+        
+        .social-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d0d0d0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            font-size: 16px;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .social-icon.facebook:hover { color: #ffffff; }
+        .social-icon.instagram:hover { color: #ffffff; }
+        .social-icon.linkedin:hover { color: #ffffff; }
+        .social-icon.github:hover { color: #ffffff; }
+        
+        .contact-btn {
+            border-radius: 50px;
+            padding: 12px 32px;
+            color: #ffffff;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .contact-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .portfolio-section {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .portfolio-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 24px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .project-button {
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, rgba(40, 40, 40, 0.8) 0%, rgba(60, 60, 60, 0.6) 50%, rgba(30, 30, 30, 0.8) 100%);
+            cursor: pointer;
+            text-decoration: none;
+            width: 100%;
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideInLeft 0.6s ease forwards;
+        }
+        
+        .project-button:nth-child(1) { animation-delay: 0.1s; }
+        .project-button:nth-child(2) { animation-delay: 0.2s; }
+        .project-button:nth-child(3) { animation-delay: 0.3s; }
+        .project-button:nth-child(4) { animation-delay: 0.4s; }
+        .project-button:nth-child(5) { animation-delay: 0.5s; }
+        
+        .project-button:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px) scale(1.02);
+        }
+        
+        .project-info h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+        
+        .project-info p {
+            font-size: 14px;
+            color: #e0e0e0;
+        }
+        
+        .project-link {
+            color: #d0d0d0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 50%;
+        }
+        
+        .project-button:hover .project-link {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes slideInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes backgroundPulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes backgroundMove {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 480px) {
+            .profile-card {
+                padding: 32px 24px;
+            }
+            
+            .profile-image {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .profile-photo {
+                font-size: 48px;
+            }
+            
+            .name {
+                font-size: 24px;
+            }
+            
+            .social-icons {
+                gap: 16px;
+            }
+            
+            .social-icon {
+                width: 48px;
+                height: 48px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <nav>
-      <h1>Sanha Digital Technology</h1>
-      <ul>
-        <li><a href="#about">Tentang</a></li>
-        <li><a href="#services">Layanan</a></li>
-        <li><a href="#testimonials">Testimoni</a></li>
-        <li><a href="#contact">Kontak</a></li>
-      </ul>
-    </nav>
-  </header>
+    <div class="container">
+        <!-- Profile Card -->
+        <div class="glass profile-card">
+            <!-- Profile Photo -->
+            <div class="profile-image">
+                <div class="profile-photo">
+                    ^-^ 
+                </div>
+            </div>
+            
+            <!-- Name and Title -->
+            <h1 class="name">Sanha</h1>
+            <p class="title">Cyber Security Enthusiast</p>
+            
+            <!-- Social Media Icons -->
+            <div class="social-icons">
+                <a href="https://www.instagram.com/seonh_0?igsh=MXFtNnZhbGlwYXE1bg==" class="social-icon glass instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/khuswatul-hasan0x000?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="social-icon glass linkedin">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="https://github.com/seonha14" class="social-icon glass github">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+            
 
-  <section class="hero" data-aos="fade-up">
-    <h2>Edukasi Cyber Security untuk Masyarakat</h2>
-    <p>Kami memberikan edukasi berkualitas tentang bahaya cybercrime dan cara melindungi diri di dunia digital.</p>
-    <button class="cta">Pelajari Lebih Lanjut</button>
-  </section>
-
-  <section id="about" class="section" data-aos="fade-up">
-    <div class="glass">
-      <h3 style="color:#9aff00">Tentang Kami</h3>
-      <p>Sanha Digital Technology adalah platform edukasi yang berfokus pada keamanan siber, ditujukan untuk membangun kesadaran digital masyarakat Indonesia terhadap ancaman cybercrime.</p>
+        </div>
+        
+        <!-- Portfolio Section -->
+        <div class="portfolio-section">
+            <h2 class="portfolio-title">No Life Projects</h2></h2>
+            
+            <button class="glass project-button">
+                <div class="project-info">
+                    <h3>BELAJAR GRATIS</h3>
+                    <p>Kumpulan Platform Belajar & Sertifikasi Gratis Untuk menunjang Karir IT-mu</p>
+                </div>
+                <a href="https://seonh00.github.io/Sertifikasi-gratis/">
+                <span class="project-link">
+                    <i class="fas fa-external-link-alt"></i>
+                </span>
+                </a>
+            </button>
+            
+            <button class="glass project-button">
+                <div class="project-info">
+                    <h3>WADIR (WA DIRECT)</h3>
+                    <p>Solusi kalian yang Mager, Chat Whatsapp Ke Nomor Baru Tanpa Save Nomor</p>
+                </div>
+                <a href=https://seonha14.github.io/WaDir/>
+                <span class="project-link">
+                    <i class="fas fa-external-link-alt"></i>
+                </span>
+                </a>
+            </button>
+            
+            <button class="glass project-button">
+                <div class="project-info">
+                    <h3>Plat Counting</h3>
+                    <p>Counting Wasting my time, yeah it's Custom and Automation Tools for help Plat Counting</p>
+                </div>
+                <a href="https://seonha14.github.io/PlatCount/">
+                <span class="project-link">
+                    <i class="fas fa-external-link-alt"></i>
+                </span>
+                </a>
+            </button>
+            
+            <button class="glass project-button">
+                <div class="project-info">
+                    <h3>Books Library</h3>
+                    <p>U know that reading book could u being smart, Find Ur IT World Here</p>
+                </div>
+                <span class="project-link">
+                    <i class="fas fa-external-link-alt"></i>
+                </span>
+            </button>
+            
+            <button class="glass project-button">
+                <div class="project-info">
+                    <h3>My Notes</h3>
+                    
+                    <p>Ram Otak Kecil Notes Solusinya, Mampir Kesini kalo suka baca :)</p>
+                </div>
+                <span class="project-link">
+                    <i class="fas fa-external-link-alt"></i>
+                </span>
+            </button>
+        </div>
     </div>
-  </section>
-
-  <section id="services" class="section" data-aos="fade-up">
-    <div class="glass">
-      <h3 style="color:#9aff00">Layanan Kami</h3>
-      <ul>
-        <li>- Workshop & Webinar Keamanan Siber</li>
-        <li>- Simulasi Serangan & Analisa Risiko</li>
-        <li>- Edukasi Interaktif untuk Remaja & Profesional</li>
-      </ul>
-    </div>
-  </section>
-
-  <section id="testimonials" class="section" data-aos="fade-up">
-    <div class="glass">
-      <h3 style="color:#9aff00">Apa Kata Mereka</h3>
-      <p><em>"Platform ini membuka wawasan saya tentang pentingnya menjaga keamanan data pribadi."</em> — Rina A., Mahasiswa</p>
-      <p><em>"Sanha menjadi partner penting kami dalam pelatihan keamanan digital di perusahaan."</em> — Ahmad R., IT Officer</p>
-      <p><em>"Materi edukasi yang disampaikan sangat relevan untuk dunia pendidikan."</em> — Bu Lilis, Guru</p>
-    </div>
-  </section>
-
-  <section id="contact" class="section" data-aos="fade-up">
-    <div class="glass">
-      <h3 style="color:#9aff00">Hubungi Kami</h3>
-      <p>Email: sanha@sanhadigital.tech</p>
-    </div>
-  </section>
-
-  <footer>
-    <p>&copy; 2025 Sanha Digital Technology. All rights reserved.</p>
-  </footer>
-
-  <script>
-    AOS.init();
-  </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96fd588cd0773e54',t:'MTc1NTMwOTcwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
