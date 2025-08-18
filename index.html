@@ -4,9 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sanha Profile</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --bg-color: #0A0A0A;
+            --card-color: rgba(26, 26, 26, 0.5);
+            --accent-color: #C6F432;
+            --accent-color-dark: #677a1a;
+            --text-primary: #F5F5F5;
+            --text-secondary: #A0A0A0;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --border-hover-color: #C6F432;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,52 +27,83 @@
         }
         
         body {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 30%, #2a1a2a 70%, #0f0f0f 100%);
+            background-color: var(--bg-color);
             min-height: 100vh;
-            font-family: 'Courier New', 'Monaco', monospace;
+            font-family: 'Inter', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             padding: 20px;
             position: relative;
+            color: var(--text-primary);
             overflow-x: hidden;
         }
-        
-        body::before {
-            content: '';
+
+        #matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -2; /* Pindah ke lapisan paling belakang */
+            pointer-events: none;
+        }
+
+        .background-gradient {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(138, 43, 226, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(219, 112, 147, 0.06) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(75, 0, 130, 0.04) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: -1;
-            animation: backgroundPulse 8s ease-in-out infinite;
+            z-index: -1; /* Berada di atas canvas, di bawah konten */
+            overflow: hidden;
+        }
+
+        .gradient-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: 0.3;
+        }
+
+        .shape1 {
+            width: 500px; height: 500px;
+            background-color: var(--accent-color);
+            top: -10%; left: -10%;
+            animation: moveShape1 25s infinite;
+        }
+
+        .shape2 {
+            width: 400px; height: 400px;
+            background-color: var(--accent-color-dark);
+            bottom: -5%; right: -15%;
+            animation: moveShape2 30s infinite;
         }
         
-        body::after {
-            content: '';
-            position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: 
-                repeating-linear-gradient(
-                    45deg,
-                    transparent,
-                    transparent 100px,
-                    rgba(255, 255, 255, 0.01) 100px,
-                    rgba(255, 255, 255, 0.01) 102px
-                );
-            pointer-events: none;
-            z-index: -1;
-            animation: backgroundMove 20s linear infinite;
+        .shape3 {
+            width: 300px; height: 300px;
+            background-color: var(--accent-color);
+            bottom: 25%; left: 10%;
+            animation: moveShape3 20s infinite;
+        }
+
+        @keyframes moveShape1 {
+            0%   { transform: translate(0, 0); }
+            25%  { transform: translate(20vw, 15vh); }
+            50%  { transform: translate(-10vw, 30vh); }
+            75%  { transform: translate(10vw, -10vh); }
+            100% { transform: translate(0, 0); }
+        }
+
+        @keyframes moveShape2 {
+            0%   { transform: translate(0, 0) rotate(0deg); }
+            50%  { transform: translate(-30vw, -40vh) rotate(180deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        @keyframes moveShape3 {
+            0%   { transform: translate(0, 0); }
+            33%  { transform: translate(-15vw, 10vh); }
+            66%  { transform: translate(10vw, -20vh); }
+            100% { transform: translate(0, 0); }
         }
         
         .container {
@@ -67,148 +111,106 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
+            z-index: 1;
+            padding-top: 40px;
         }
         
         .glass {
-            background: linear-gradient(135deg, rgba(40, 40, 40, 0.8) 0%, rgba(60, 60, 60, 0.6) 50%, rgba(30, 30, 30, 0.8) 100%);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            border: 1px solid var(--border-color);
         }
         
         .profile-card {
-            border-radius: 20px;
+            background-color: var(--card-color);
+            border-radius: 24px;
             padding: 32px;
             width: 100%;
             text-align: center;
             margin-bottom: 40px;
+            transition: border-color 0.4s ease, box-shadow 0.4s ease, border-width 0.4s ease;
+        }
+
+        .profile-card:hover {
+            border: 2px solid var(--border-hover-color);
+            box-shadow: 0 0 50px rgba(198, 244, 50, 0.2), inset 0 0 15px rgba(198, 244, 50, 0.1);
         }
         
         .profile-image {
-            background: linear-gradient(45deg, #ffffff, #f0f0f0);
-            padding: 3px;
+            background: linear-gradient(45deg, var(--accent-color), #E0E0E0);
+            padding: 4px;
             border-radius: 50%;
-            width: 120px;
-            height: 120px;
+            width: 120px; height: 120px;
             margin: 0 auto 24px auto;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
         
         .profile-photo {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             border-radius: 50%;
-            background: linear-gradient(45deg, #2a2a2a, #1a1a1a);
+            background-color: #1a1a1a;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #ffffff;
+            color: var(--text-primary);
             font-size: 40px;
             font-weight: normal;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid #1a1a1a;
+            font-family: 'Courier New', monospace;
         }
         
         .name {
-            font-size: 24px;
-            font-weight: 600;
-            color: #ffffff;
+            font-size: 24px; font-weight: 600;
+            color: var(--text-primary);
             margin-bottom: 6px;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
         }
         
         .title {
-            font-size: 14px;
-            color: #c0c0c0;
-            margin-bottom: 24px;
-            text-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
-            font-weight: 400;
+            font-size: 14px; color: var(--text-secondary);
+            margin-bottom: 24px; font-weight: 400;
         }
         
         .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-bottom: 0;
+            display: flex; justify-content: center; gap: 16px;
         }
         
         .social-icon {
-            width: 44px;
-            height: 44px;
+            width: 48px; height: 48px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #d0d0d0;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-secondary);
+            background-color: rgba(255, 255, 255, 0.05);
             text-decoration: none;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            font-size: 16px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 18px; border: none;
         }
         
         .social-icon:hover {
-            transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.08);
-            color: #ffffff;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-        
-        .social-icon.facebook:hover { color: #ffffff; }
-        .social-icon.instagram:hover { color: #ffffff; }
-        .social-icon.linkedin:hover { color: #ffffff; }
-        .social-icon.github:hover { color: #ffffff; }
-        
-        .contact-btn {
-            border-radius: 50px;
-            padding: 12px 32px;
-            color: #ffffff;
-            font-weight: 500;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: rgba(0, 0, 0, 0.3);
-        }
-        
-        .contact-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-            border-color: rgba(255, 255, 255, 0.6);
+            color: var(--bg-color);
+            background-color: var(--accent-color);
+            transform: translateY(-4px) scale(1.1);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
         }
         
         .portfolio-section {
-            width: 100%;
-            max-width: 400px;
+            width: 100%; max-width: 420px;
         }
         
         .portfolio-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #ffffff;
-            text-align: center;
-            margin-bottom: 24px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            font-size: 20px; font-weight: 700;
+            color: var(--text-primary);
+            text-align: center; margin-bottom: 24px;
         }
         
         .project-button {
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: linear-gradient(135deg, rgba(40, 40, 40, 0.8) 0%, rgba(60, 60, 60, 0.6) 50%, rgba(30, 30, 30, 0.8) 100%);
-            cursor: pointer;
-            text-decoration: none;
+            border-radius: 16px; padding: 20px; margin-bottom: 16px;
+            transition: all 0.4s ease;
+            display: flex; align-items: center; justify-content: space-between;
+            background: linear-gradient(135deg, rgba(35, 45, 30, 0.4) 0%, rgba(25, 25, 25, 0.6) 100%);
             width: 100%;
             opacity: 0;
-            transform: translateX(-50px);
-            animation: slideInLeft 0.6s ease forwards;
+            transform: translateY(20px);
+            animation: slideInUp 0.6s ease forwards;
         }
         
         .project-button:nth-child(1) { animation-delay: 0.1s; }
@@ -218,202 +220,251 @@
         .project-button:nth-child(5) { animation-delay: 0.5s; }
         
         .project-button:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px) scale(1.02);
+            background: linear-gradient(135deg, rgba(198, 244, 50, 0.15) 0%, rgba(25, 25, 25, 0.5) 100%);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 25px rgba(198, 244, 50, 0.1);
         }
         
         .project-info h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 4px;
+            font-size: 16px; font-weight: 600;
+            color: var(--text-primary); margin-bottom: 6px;
         }
         
         .project-info p {
-            font-size: 14px;
-            color: #e0e0e0;
+            font-size: 14px; color: var(--text-secondary); line-height: 1.5;
         }
         
         .project-link {
-            color: #d0d0d0;
-            text-decoration: none;
+            color: var(--text-secondary); text-decoration: none;
             transition: all 0.3s ease;
-            padding: 8px;
-            border-radius: 50%;
+            font-size: 18px; padding: 8px;
         }
         
         .project-button:hover .project-link {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            color: var(--accent-color); transform: scale(1.1);
         }
         
-        .floating {
-            animation: float 6s ease-in-out infinite;
+        footer {
+            text-align: center; margin-top: 40px;
+            color: var(--text-secondary);
+            font-size: 14px; opacity: 0.7; padding-bottom: 20px;
+        }
+
+        footer .fa-heart {
+            color: #e25555; margin: 0 4px; font-size: 12px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
         }
         
-        @keyframes slideInLeft {
-            0% {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        
-        @keyframes backgroundPulse {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.8;
-                transform: scale(1.05);
-            }
-        }
-        
-        @keyframes backgroundMove {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        
-        /* Responsive */
         @media (max-width: 480px) {
-            .profile-card {
-                padding: 32px 24px;
-            }
-            
-            .profile-image {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .profile-photo {
-                font-size: 48px;
-            }
-            
-            .name {
-                font-size: 24px;
-            }
-            
-            .social-icons {
-                gap: 16px;
-            }
-            
-            .social-icon {
-                width: 48px;
-                height: 48px;
-            }
+            .container { padding-top: 20px; }
+            .profile-card, .project-button { padding: 24px; }
+            .container, .portfolio-section { max-width: 100%; }
+            .profile-image { width: 100px; height: 100px; }
+            .shape1 { width: 300px; height: 300px; }
+            .shape2 { width: 250px; height: 250px; }
+            .shape3 { width: 200px; height: 200px; }
+            .gradient-shape { filter: blur(120px); opacity: 0.2; }
         }
     </style>
 </head>
 <body>
+    <canvas id="matrix-bg"></canvas>
+
+    <div class="background-gradient">
+        <div class="gradient-shape shape1"></div>
+        <div class="gradient-shape shape2"></div>
+        <div class="gradient-shape shape3"></div>
+    </div>
+
     <div class="container">
-        <!-- Profile Card -->
         <div class="glass profile-card">
-            <!-- Profile Photo -->
             <div class="profile-image">
-                <div class="profile-photo">
-                    ^-^ 
+                <div class="profile-photo" id="profile-expression">
+                    ^_^
                 </div>
             </div>
             
-            <!-- Name and Title -->
             <h1 class="name">Sanha</h1>
             <p class="title">Cyber Security Enthusiast</p>
             
-            <!-- Social Media Icons -->
             <div class="social-icons">
-                <a href="https://www.instagram.com/seonh_0?igsh=MXFtNnZhbGlwYXE1bg==" class="social-icon glass instagram">
+                <a href="https://www.instagram.com/seonh_0?igsh=MXFtNnZhbGlwYXE1bg==" class="social-icon instagram" target="_blank" aria-label="Instagram">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://www.linkedin.com/in/khuswatul-hasan0x000?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="social-icon glass linkedin">
+                <a href="https://www.linkedin.com/in/khuswatul-hasan0x000?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="social-icon linkedin" target="_blank" aria-label="LinkedIn">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
-                <a href="https://github.com/seonha14" class="social-icon glass github">
+                <a href="https://github.com/seonha14" class="social-icon github" target="_blank" aria-label="GitHub">
                     <i class="fab fa-github"></i>
                 </a>
             </div>
-            
-
         </div>
         
-        <!-- Portfolio Section -->
         <div class="portfolio-section">
-            <h2 class="portfolio-title">No Life Projects</h2></h2>
+            <h2 class="portfolio-title">No Life Projects</h2>
             
-            <button class="glass project-button">
+            <div class="glass project-button">
                 <div class="project-info">
                     <h3>BELAJAR GRATIS</h3>
                     <p>Kumpulan Platform Belajar & Sertifikasi Gratis Untuk menunjang Karir IT-mu</p>
                 </div>
-                <a href="https://seonh00.github.io/Sertifikasi-gratis/">
-                <span class="project-link">
-                    <i class="fas fa-external-link-alt"></i>
-                </span>
+                <a href="https://seonh00.github.io/Sertifikasi-gratis/" class="project-link" target="_blank" aria-label="Belajar Gratis">
+                    <i class="fas fa-arrow-up-right-from-square"></i>
                 </a>
-            </button>
+            </div>
             
-            <button class="glass project-button">
+            <div class="glass project-button">
                 <div class="project-info">
                     <h3>WADIR (WA DIRECT)</h3>
                     <p>Solusi kalian yang Mager, Chat Whatsapp Ke Nomor Baru Tanpa Save Nomor</p>
                 </div>
-                <a href=https://seonha14.github.io/WaDir/>
-                <span class="project-link">
-                    <i class="fas fa-external-link-alt"></i>
-                </span>
+                <a href="https://seonha14.github.io/WaDir/" class="project-link" target="_blank" aria-label="WADIR">
+                    <i class="fas fa-arrow-up-right-from-square"></i>
                 </a>
-            </button>
+            </div>
             
-            <button class="glass project-button">
+            <div class="glass project-button">
                 <div class="project-info">
                     <h3>Plat Counting</h3>
                     <p>Counting Wasting my time, yeah it's Custom and Automation Tools for help Plat Counting</p>
                 </div>
-                <a href="https://seonha14.github.io/PlatCount/">
-                <span class="project-link">
-                    <i class="fas fa-external-link-alt"></i>
-                </span>
+                <a href="https://seonha14.github.io/PlatCount/" class="project-link" target="_blank" aria-label="Plat Counting">
+                    <i class="fas fa-arrow-up-right-from-square"></i>
                 </a>
-            </button>
+            </div>
             
-            <button class="glass project-button">
+            <div class="glass project-button">
                 <div class="project-info">
                     <h3>Cybersecurity Books Library</h3>
                     <p>Reading book will make u being smart, Find Ur IT World Here</p>
                 </div>
-                <a href="https://seonha14.github.io/CyberBooksLibrary/">
-                <span class="project-link">
-                    <i class="fas fa-external-link-alt"></i>
-                </span>
+                <a href="https://seonha14.github.io/CyberBooksLibrary/" class="project-link" target="_blank" aria-label="Cybersecurity Books Library">
+                    <i class="fas fa-arrow-up-right-from-square"></i>
                 </a>
-            </button>
+            </div>
             
-            <button class="glass project-button">
+            <div class="glass project-button">
                 <div class="project-info">
                     <h3>My Notes</h3>
-                    
                     <p>Ram Otak Kecil Notes Solusinya, Mampir Kesini kalo suka baca :)</p>
                 </div>
-                <span class="project-link">
-                    <i class="fas fa-external-link-alt"></i>
-                </span>
-            </button>
+                <a href="#" class="project-link" aria-label="My Notes">
+                    <i class="fas fa-arrow-up-right-from-square"></i>
+                </a>
+            </div>
         </div>
     </div>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96fd588cd0773e54',t:'MTc1NTMwOTcwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+
+    <footer>
+        <p>made with <i class="fas fa-heart"></i> by sanha</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Animasi Latar Belakang Acak ---
+            const canvas = document.getElementById('matrix-bg');
+            const ctx = canvas.getContext('2d');
+            
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+            
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>{}[]|?';
+            const fontSize = 10;
+            let particles = [];
+            
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.char = characters[Math.floor(Math.random() * characters.length)];
+                    this.life = 0;
+                    this.maxLife = Math.random() * 100 + 50;
+                    this.opacity = 0;
+                }
+                
+                draw() {
+                    const fadeInDuration = 20;
+                    const fadeOutStart = this.maxLife - 20;
+
+                    if (this.life < fadeInDuration) {
+                        this.opacity = this.life / fadeInDuration;
+                    } else if (this.life > fadeOutStart) {
+                        this.opacity = (this.maxLife - this.life) / (this.maxLife - fadeOutStart);
+                    } else {
+                        this.opacity = 1;
+                    }
+                    
+                    ctx.fillStyle = `rgba(198, 244, 50, ${this.opacity * 0.5})`; // Kurangi opacity agar lebih subtle
+                    ctx.font = `${fontSize}px Inter`;
+                    ctx.fillText(this.char, this.x, this.y);
+                    
+                    this.life++;
+                    if (this.life >= this.maxLife) {
+                        const index = particles.indexOf(this);
+                        if (index > -1) {
+                            particles.splice(index, 1);
+                        }
+                    }
+                }
+            }
+
+            function animateParticles() {
+                // Gunakan clearRect agar transparan, bukan fillRect hitam
+                ctx.clearRect(0, 0, width, height);
+                
+                // Optimasi: batasi jumlah partikel agar tidak berat
+                if (particles.length < 75) { 
+                    particles.push(new Particle());
+                }
+                
+                particles.forEach(p => p.draw());
+                requestAnimationFrame(animateParticles);
+            }
+            
+            animateParticles();
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+                particles = [];
+            });
+
+            // --- Animasi Glitch Ekspresi Profil ---
+            const profileExpression = document.getElementById('profile-expression');
+            const expressions = ['^_^','>_<'];
+            const glitchChars = '`¡™£¢∞§¶•ªº–≠`¬˚∆˙©ƒ∂ßå≈ç√∫˜µ≤≥÷/?';
+            let currentExpressionIndex = 0;
+
+            function glitchEffect(element, final_text) {
+                let interval = setInterval(() => {
+                    let glitchedText = '';
+                    for (let i = 0; i < final_text.length; i++) {
+                        glitchedText += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                    }
+                    element.textContent = glitchedText;
+                }, 50);
+
+                setTimeout(() => {
+                    clearInterval(interval);
+                    element.textContent = final_text;
+                }, 300);
+            }
+
+            setInterval(() => {
+                currentExpressionIndex = (currentExpressionIndex + 1) % expressions.length;
+                glitchEffect(profileExpression, expressions[currentExpressionIndex]);
+            }, 4000);
+        });
+    </script>
+</body>
 </html>
